@@ -1,4 +1,4 @@
-sonar-project-cleaner
+jenkins-item-cleaner
 =====================
 
-Tool to cleanup projects in sonar which were not build since a specific time
+Tool to cleanup jobs in jenkins which are deactivated and were not build since a specific time
