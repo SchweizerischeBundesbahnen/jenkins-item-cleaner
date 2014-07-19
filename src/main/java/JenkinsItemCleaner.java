@@ -22,7 +22,7 @@ public class JenkinsItemCleaner {
     private final static Logger LOGGER = Logger.getLogger(JenkinsItemCleaner.class.getName());
 
     public static void main(String[] args) {
-        if(args.length < 4) {
+        if (args.length < 4) {
             usage();
         }
         String jenkinsServerString = args[0];
@@ -68,9 +68,9 @@ public class JenkinsItemCleaner {
                                     if (e.getStatusCode() == 302) {
                                         LOGGER.log(Level.INFO, "Deleted " + jobWithDetails.getName());
                                     } else if (e.getStatusCode() == 301) {
-                                        LOGGER.log(Level.WARNING,"Could not delete " + job.getName() + " message was " + e.getMessage() + " " + e.getStatusCode() + " maybe you are not allowed to delete?");
+                                        LOGGER.log(Level.WARNING, "Could not delete " + job.getName() + " message was " + e.getMessage() + " " + e.getStatusCode() + " maybe you are not allowed to delete?");
                                     } else {
-                                        LOGGER.log(Level.WARNING,"Could not delete " + job.getName() + " message was " + e.getMessage() + " " + e.getStatusCode());
+                                        LOGGER.log(Level.WARNING, "Could not delete " + job.getName() + " message was " + e.getMessage() + " " + e.getStatusCode());
                                     }
                                 }
                             }
