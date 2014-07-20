@@ -29,8 +29,10 @@ public class JenkinsItemCleaner {
         String user = args[1];
         String password = args[2];
         int retentionDays = Integer.parseInt(args[3]);
+        int deletedJobCounter = 0;
         boolean dryRun = false;
 
+        //Create the retention date
         Date currentDate = new Date(System.currentTimeMillis() * 1000);
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
@@ -59,6 +61,7 @@ public class JenkinsItemCleaner {
                         timestamp = buildWithDetails.getTimestamp();
                         Date lastBuildDate = new Date(timestamp * 1000);
                         if (lastBuildDate.before(cal.getTime())) {
+                            deletedJobCounter++;
                             if (dryRun) {
                                 LOGGER.log(Level.INFO, "Would delete " + jobWithDetails.getName());
                             } else {
@@ -85,15 +88,15 @@ public class JenkinsItemCleaner {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Could not read jobs from " + jenkinsServerString);
         } catch (URISyntaxException e) {
             LOGGER.log(Level.SEVERE, "Server-url doesn't seem to be correct " + jenkinsServerString);
         }
-
+        LOGGER.log(Level.INFO, deletedJobCounter + " jobs were deleted");
     }
 
     private static void usage() {
-        System.out.println("Example: java -jar jenkins-item-cleaner.jar http://localhost:8080 admin password 180");
+        System.out.println("Example: java -jar jenkins-item-cleaner.jar http://localhost:8080 user password 180");
         System.out.println("dryRun at the end can be used to test what would happen");
     }
 
